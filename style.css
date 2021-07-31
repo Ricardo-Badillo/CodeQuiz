@@ -23,6 +23,14 @@ body {
     align-items: center;
 }
 
+button:hover{
+    background-color: aliceblue;
+}
+
+.choices button{
+    display: block;
+}
+
 .btn-grid {
     display: grid;
     grid-template-columns: repeat(2, auto);

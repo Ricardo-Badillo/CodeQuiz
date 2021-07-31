@@ -1,45 +1,33 @@
 var questions = document.getElementById('questions');
+var quizChoices = document.getElementById("choices");
 var timer = document.getElementById('timer');
 var quiz = document.getElementById('quiz');
-var answer1 = document.getElementById('answer1');
-var answer2 = document.getElementById('answer2');
-var answer3 = document.getElementById('answer3');
-var answer4 = document.getElementById('answer4');
+
 var startButton = document.getElementById('startButton');
 var highscores = document.getElementById('highscores');
 var scores = document.getElementById('scores');
+var results = document.getElementById("result")
 
 var secondsLeft = 60;  
+var currentQuestionsI = 0;
 
 var quizQuestions = [
     {
-        question: 'What is 1+1?',
-        optionA: '2', correct: true,
-        optionB: '3', 
-        optionC: '4', 
-        optionD: '5', 
-    },];
-//     {
-//         question: 'What state is Seattle in?',
-//         optionA: 'Washington',
-//         optionB: 'California',
-//         optionC: 'Arizona',
-//         optionD: 'Texas'
-
-//     },
-//     {
-//         question: 'Where are the Seahawks from?',
-//         optionA: 'Seattle',
-//         optionB: 'New York',
-//         optionC: 'Los Angeles',
-//         optionD: 'Miami'
-//     }
-// ];
-
-
-
-
-
+      question: 'Where is the JavaScript found on the html page?',
+      choices: ['bottom', 'top'], 
+      answer: 'bottom'
+    },
+    {
+      question: 'A variable can be what?',
+      choices: ['string', 'number', 'boolean', 'all'],
+      answer: 'all'
+    },
+    {
+      question: 'What does API stand for?',
+      choices: ['All Program Index', 'Application Programming Interface', 'App Playing Interface'],
+      answer: 'Application Programming Interface'
+    }
+  ];
 
 startButton.addEventListener('click', handleStartButton);
 
@@ -49,10 +37,35 @@ function handleStartButton(){
 quiz.classList.remove("hide");
 //start button should hide
 startButton.classList.add("hide");
+
+questions.removeAttribute("class")
+
 setTimer();
+getquestion();
 }
 
+function getquestion(){
+  var newQuestions = quizQuestions[currentQuestionsI];
+  
+  var question = document.getElementById("question-question");
+  question.textContent = newQuestions.question;
 
+  quizChoices.innerHTML = "";
+
+  newQuestions.choices.forEach(function(choice, i) {
+
+    var choiceBut = document.createElement("button");
+    choiceBut.setAttribute("class", "choice");
+    choiceBut.setAttribute("value", choice);
+
+    choiceBut.textContent = i + 1 + ". " + choice;
+
+    choiceBut.onclick = questionClick;
+
+    quizChoices.appendChild(choiceBut);
+  });
+  
+}
 
 function setTimer() {
     // Sets interval in variable
@@ -69,3 +82,13 @@ function setTimer() {
     }, 1000);
   }
 
+function questionClick() {
+  if (this.value !== quizQuestions[currentQuestionsI].answer) {
+    results.textContent = 'Wrong!';
+
+  }else {
+    results.textContent = 'Correct!';
+  }
+
+  currentQuestionsI++;
+}
